@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
 
 // Класс Фермер
 public class Farmer
@@ -36,17 +37,28 @@ public class Farmer
 public class DroneOperator
 {
     private Agronom _agronom;
+    private List<Drone> _drones; // Список дронов
 
-    // Конструктор принимает агронома для взаимодействия
+    // Конструктор принимает агронома для взаимодействия и создаёт список дронов
     public DroneOperator(Agronom agronom)
     {
         _agronom = agronom;
+        _drones = new List<Drone>();
+        // Инициализация нескольких дронов
+        for (int i = 0; i < 3; i++)
+        {
+            _drones.Add(new Drone($"Drone_{i+1}"));
+        }
     }
 
     // Метод для управления дроном
     public void ControlDrone()
     {
         Console.WriteLine("Оператор керує дроном.");
+        foreach (var drone in _drones)
+        {
+            drone.CollectData(); // Каждый дрон собирает данные
+        }
     }
 
     // Метод для передачи данных агроному
@@ -67,6 +79,24 @@ public class Agronom
         // Анализ данных
         AnalyticsData analytics = new AnalyticsData();
         farmer.ReceiveAnalytics(analytics); // Возвращаем данные фермеру
+    }
+}
+
+// Класс Дрон
+public class Drone
+{
+    private string _droneName;
+
+    // Конструктор принимает имя дрона
+    public Drone(string name)
+    {
+        _droneName = name;
+    }
+
+    // Метод для сбора данных с полей
+    public void CollectData()
+    {
+        Console.WriteLine($"{_droneName} збирає дані з полів.");
     }
 }
 
